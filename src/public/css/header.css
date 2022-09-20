@@ -1,0 +1,30 @@
+header {
+    display: grid;
+    grid-template-columns: minmax(200px, 800px) minmax(200px, 400px);
+    justify-content: center;
+    background-color: rgb(209, 209, 209);
+    padding: 1rem 2rem;
+    margin: 0 auto;
+}
+
+header section.items {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+header section.items li {
+    list-style: none;
+    text-align: center;
+}
+
+header section.items li a {
+    text-decoration: none;
+    color: black;
+}
+
+header section.items li a:hover {
+    text-decoration: none;
+    color: rgb(86, 86, 86);
+}

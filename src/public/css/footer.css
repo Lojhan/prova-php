@@ -1,6 +1,17 @@
-section.footer {
+footer {
+    width: 100%;
+    height: 100%;
+    text-align: center;
     display: grid;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
+}
+
+footer div.footer-body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }

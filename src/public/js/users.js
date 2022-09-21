@@ -2,7 +2,7 @@ import { openModal } from './modal.js';
 
 const addUserButton = document.getElementById('add-user-button');
 
-addUserButton.addEventListener('click', createHandler);
+addUserButton.onclick = createHandler;
 
 function mapUsers(users) {
     const usersWrapper = document.querySelector('.users');
@@ -48,17 +48,17 @@ function createHandler() {
     confirmButton.innerHTML = 'Create User';
     openModal();
 
-    confirmButton.addEventListener('click', (e) => {
+    confirmButton.onclick = (e) => {
         e.preventDefault();
         const payload = { name: name.value, email: email.value, password: password.value }
         sendReq(payload, form.getAttribute('action'));
-    });
+    };
 }
 
 function editHandler(user) {
     const userWrapper = document.getElementById(user.id);
 
-    userWrapper.addEventListener('click', () => {
+    userWrapper.onclick = () => {
         const title = document.querySelector('.modal h1.title');
         const form = document.getElementById('user-form');
         const name = document.querySelector('#user-form [name="name"]');
@@ -73,19 +73,19 @@ function editHandler(user) {
         form.setAttribute('action', `api.php/users/edit`);
 
         confirmButton.innerHTML = 'Edit User';
-        confirmButton.addEventListener('click', (e) => {
+        confirmButton.onclick = (e) => {
             e.preventDefault();
             const payload = { id: user.id, name: name.value, email: email.value, password: password.value }
             sendReq(payload, form.getAttribute('action'));
-        });
+        };
         openModal();
-    });
+    };
 }
 
 function deleteHandler(id) {
     const userDelete = document.querySelector(`#id-${id}.delete`);
     const user = document.getElementById(id);
-    userDelete.addEventListener('click', (e) => {
+    userDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {
             fetch(`api.php/users/delete/${id}`, { method: 'DELETE' })
                 .then(response => response.status)
@@ -93,7 +93,7 @@ function deleteHandler(id) {
                     if (status === 200) user.remove();
                 });
         }
-    });
+    };
 }
 
 async function sendReq(user, url) {

@@ -1,23 +1,23 @@
 <?php
     require_once 'controllers/base_controller.php';
-    class UserController extends BaseController {
-        private $userRepository;
+    class SerieController extends BaseController {
+        private $serieRepository;
 
-        public function __construct( $userRepository ) {
-            $this->userRepository = $userRepository;
+        public function __construct( $serieRepository ) {
+            $this->serieRepository = $serieRepository;
         }
 
         public function get() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
-    
+
             if (strtoupper($requestMethod) == 'GET') {
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
-                    $result = $this->userRepository->getUser($id);
-                    $user = $result->fetch_assoc();
-                    $responseData = json_encode($user);
+                    $result = $this->serieRepository->getSerie($id);
+                    $serie = $result->fetch_assoc();
+                    $responseData = json_encode($serie);
                 } catch (Error $e) {
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -26,22 +26,22 @@
                 $strErrorDesc = 'Method not supported';
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
             }
-    
+
             $this->end($strErrorDesc, $strErrorHeader, $responseData);
         }
 
         public function list() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
-    
+
             if (strtoupper($requestMethod) == 'GET') {
                 try {
-                    $arrUsers = array();
-                    $result = $this->userRepository->getAllUsers();
+                    $arrSeries = array();
+                    $result = $this->serieRepository->getAllSeries();
                     while ($row = $result->fetch_assoc()) {
-                        $arrUsers[] = $row;
+                        $arrSeries[] = $row;
                     }
-                    $responseData = json_encode($arrUsers);
+                    $responseData = json_encode($arrSeries);
                 } catch (Error $e) {                
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -50,24 +50,23 @@
                 $strErrorDesc = 'Method not supported';
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
             }
-    
+
             $this->end($strErrorDesc, $strErrorHeader, $responseData);
         }
 
         public function add() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
-    
+
             if (strtoupper($requestMethod) == 'POST') {
                 try {
                     $name = $_POST['name'];
-                    $email = $_POST['email'];
-                    $password = $_POST['password'];
+                    $description = $_POST['description'];
 
-                    $result = $this->userRepository->createUser($name, $email, $password);
-                    $user = $result->fetch_assoc();
-                    $responseData = json_encode($user);
-                } catch (Error $e) {                
+                    $result = $this->serieRepository->createSerie($name, $description);
+                    $serie = $result->fetch_assoc();
+                    $responseData = json_encode($serie);
+                } catch (Error $e) {
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
                 }
@@ -82,17 +81,16 @@
         public function edit() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
-    
+
             if (strtoupper($requestMethod) == 'POST') {
                 try {
                     $id = $_POST['id'];
                     $name = $_POST['name'];
-                    $email = $_POST['email'];
-                    $password = $_POST['password'];
-                    
-                    $result = $this->userRepository->updateUser($id, $name, $email, $password);
-                    $user = $result->fetch_assoc();
-                    $responseData = json_encode($user);
+                    $description = $_POST['description'];
+
+                    $result = $this->serieRepository->updateSerie($id, $name, $description);
+                    $serie = $result->fetch_assoc();
+                    $responseData = json_encode($serie);
                 } catch (Error $e) {
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -100,30 +98,30 @@
             } else {
                 $strErrorDesc = 'Method not supported';
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
-            }            
-            
+            }
+
             $this->end($strErrorDesc, $strErrorHeader, $responseData);
         }
 
         public function delete() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
-    
+
             if (strtoupper($requestMethod) == 'DELETE') {
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
-
-                    $this->userRepository->deleteUser($id);
+                    $result = $this->serieRepository->deleteSerie($id);
+                    $responseData = json_encode($result);
                 } catch (Error $e) {
-                    $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+                    $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
                 }
             } else {
                 $strErrorDesc = 'Method not supported';
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
             }
-            
+
             $this->end($strErrorDesc, $strErrorHeader, $responseData);
         }
     }

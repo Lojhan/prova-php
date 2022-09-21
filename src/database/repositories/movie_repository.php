@@ -1,6 +1,6 @@
 <?php 
     require_once 'database/index.php';
-    class UserRepository {
+    class MovieRepository {
         /** @var \mysqli */
         protected $DB;
 
@@ -10,11 +10,10 @@
         }
 
         private function createTable () {
-            $sql = "CREATE TABLE IF NOT EXISTS users (
+            $sql = "CREATE TABLE IF NOT EXISTS movies (
                 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(30) NOT NULL,
-                email VARCHAR(50),
-                password VARCHAR(50),
+                description VARCHAR(50),
                 reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )";
             if (!$this->DB->query($sql) === TRUE) {
@@ -22,8 +21,8 @@
             } 
         }
 
-        public function getAllUsers () {
-            $query = "SELECT * FROM users";
+        public function getAllMovies () {
+            $query = "SELECT * FROM movies";
             $stmt = $this->DB->prepare($query);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -31,32 +30,32 @@
             return $result;
         }
 
-        public function getUser ( $id ) {
-            $query = "SELECT * FROM users WHERE id = $id";
+        public function getMovie ( $id ) {
+            $query = "SELECT * FROM movies WHERE id = $id";
             $result = $this->DB->query($query);
             return $result;
         }
 
-        public function createUser ( $username, $usermail, $password ) {
-            $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+        public function createMovie ( $name, $description ) {
+            $query = "INSERT INTO movies (name, description) VALUES (?, ?)";
             $stmt = $this->DB->prepare($query);
-            $stmt->bind_param("sss", $username, $usermail, $password);
+            $stmt->bind_param("ss", $name, $description);
             $stmt->execute();
             $stmt->close();
-            return $this->getUser($this->DB->insert_id);
+            return $this->getMovie($this->DB->insert_id);
         }
 
-        public function updateUser ( $id, $username, $usermail, $password ) {
-            $query = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?";
+        public function updateMovie ( $id, $name, $description ) {
+            $query = "UPDATE movies SET name = ?, description = ? WHERE id = ?";
             $stmt = $this->DB->prepare($query);
-            $stmt->bind_param("ssss", $username, $usermail, $password, $id);
+            $stmt->bind_param("sss", $name, $description, $id);
             $stmt->execute();
             $stmt->close();
-            return $this->getUser($id);
+            return $this->getMovie($id);
         }
 
-        public function deleteUser ( $id ) {
-            $query = "DELETE FROM users WHERE id = ?";
+        public function deleteMovie ( $id ) {
+            $query = "DELETE FROM movies WHERE id = ?";
             $stmt = $this->DB->prepare($query);
             $stmt->bind_param("s", $id);
             $stmt->execute();
@@ -64,4 +63,5 @@
             return 1;
         }
     }
+
 ?>

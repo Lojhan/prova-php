@@ -9,7 +9,7 @@ function mapseries(series) {
     series.forEach(serie => {
         const serieWrapper = document.createElement('div');
         serieWrapper.classList.add('serie');
-        serieWrapper.setAttribute('id', serie.id);
+        serieWrapper.setAttribute('id', `id-${serie.id}`);
         const serieName = document.createElement('h1');
         serieName.classList.add('serie__name');
         serieName.textContent = serie.name;
@@ -18,17 +18,31 @@ function mapseries(series) {
         serieDescription.classList.add('serie__description');
         serieDescription.textContent = serie.description;
 
+        const actions = document.createElement('div');
+        actions.classList.add('serie__actions');
+
+
+        const serieDelete = document.createElement('h4');
+        serieDelete.classList.add('delete');
+        serieDelete.textContent = 'Remove Serie';
+
+        const serieEdit = document.createElement('h4');
+        serieEdit.textContent = 'Edit Serie';
+        serieEdit.classList.add('edit');
+
+        actions.appendChild(serieEdit);
+        actions.appendChild(serieDelete);
+
         const serieCreatedAt = document.createElement('h2');
         serieCreatedAt.classList.add('serie__created_at');
         serieCreatedAt.textContent = `Created at: ${serie.reg_date}`;
-        const serieDelete = document.createElement('h4');
-        serieDelete.classList.add('delete');
+
         serieDelete.setAttribute('id', `id-${serie.id}`);
         serieDelete.textContent = 'Remove serie';
         serieWrapper.appendChild(serieName);
         serieWrapper.appendChild(serieDescription);
         serieWrapper.appendChild(serieCreatedAt);
-        serieWrapper.appendChild(serieDelete);
+        serieWrapper.appendChild(actions);
         seriesWrapper.appendChild(serieWrapper);
         deleteHandler(serie.id);
         editHandler(serie);
@@ -57,7 +71,7 @@ function createHandler() {
 }
 
 function editHandler(serie) {
-    const serieWrapper = document.getElementById(serie.id);
+    const serieWrapper = document.querySelector(`#id-${serie.id} h4.edit`);
 
     serieWrapper.onclick = () => {
         const title = document.querySelector('.modal h1.title');
@@ -85,7 +99,7 @@ function editHandler(serie) {
 }
 
 function deleteHandler(id) {
-    const serieDelete = document.querySelector(`#id-${id}.delete`);
+    const serieDelete = document.querySelector(`#id-${id} h4.delete`);
     const serie = document.getElementById(id);
     serieDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {

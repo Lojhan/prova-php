@@ -9,7 +9,7 @@ function mapMovies(movies) {
     movies.forEach(movie => {
         const movieWrapper = document.createElement('div');
         movieWrapper.classList.add('movie');
-        movieWrapper.setAttribute('id', movie.id);
+        movieWrapper.setAttribute('id', `id-${movie.id}`);
         const movieName = document.createElement('h1');
         movieName.classList.add('movie__name');
         movieName.textContent = movie.name;
@@ -18,17 +18,31 @@ function mapMovies(movies) {
         movieDescription.classList.add('movie__description');
         movieDescription.textContent = movie.description;
 
-        const movieCreatedAt = document.createElement('h2');
-        movieCreatedAt.classList.add('movie__created_at');
-        movieCreatedAt.textContent = `Created at: ${movie.reg_date}`;
+        const actions = document.createElement('div');
+        actions.classList.add('movie__actions');
+
+        const movieEdit = document.createElement('h4');
+        movieEdit.classList.add('edit');
+        movieEdit.setAttribute('id', `id-${movie.id}`);
+        movieEdit.textContent = 'Edit Movie';
+
         const movieDelete = document.createElement('h4');
         movieDelete.classList.add('delete');
         movieDelete.setAttribute('id', `id-${movie.id}`);
         movieDelete.textContent = 'Remove movie';
+
+        actions.appendChild(movieEdit);
+        actions.appendChild(movieDelete);
+
+
+        const movieCreatedAt = document.createElement('h2');
+        movieCreatedAt.classList.add('movie__created_at');
+        movieCreatedAt.textContent = `Created at: ${movie.reg_date}`;
+      
         movieWrapper.appendChild(movieName);
         movieWrapper.appendChild(movieDescription);
         movieWrapper.appendChild(movieCreatedAt);
-        movieWrapper.appendChild(movieDelete);
+        movieWrapper.appendChild(actions);
         moviesWrapper.appendChild(movieWrapper);
         deleteHandler(movie.id);
         editHandler(movie);
@@ -56,7 +70,7 @@ function createHandler() {
 }
 
 function editHandler(movie) {
-    const movieWrapper = document.getElementById(movie.id);
+    const movieWrapper = document.querySelector(`#id-${movie.id} h4.edit`);
 
     movieWrapper.onclick = () => {
         const title = document.querySelector('.modal h1.title');
@@ -83,7 +97,7 @@ function editHandler(movie) {
 }
 
 function deleteHandler(id) {
-    const movieDelete = document.querySelector(`#id-${id}.delete`);
+    const movieDelete = document.querySelector(`#id-${id} h4.delete`);
     const movie = document.getElementById(id);
     movieDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {

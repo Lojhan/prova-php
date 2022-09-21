@@ -9,7 +9,7 @@ function mapUsers(users) {
     users.forEach(user => {
         const userWrapper = document.createElement('div');
         userWrapper.classList.add('user');
-        userWrapper.setAttribute('id', user.id);
+        userWrapper.setAttribute('id', `id-${user.id}`);
         const userName = document.createElement('h1');
         userName.classList.add('user__name');
         userName.textContent = user.name;
@@ -19,14 +19,25 @@ function mapUsers(users) {
         const userCreatedAt = document.createElement('h2');
         userCreatedAt.classList.add('user__created_at');
         userCreatedAt.textContent = `Created at: ${user.reg_date}`;
+
+        const actions = document.createElement('div');
+        actions.classList.add('user__actions');
+
         const userDelete = document.createElement('h4');
-        userDelete.classList.add('delete');
-        userDelete.setAttribute('id', `id-${user.id}`);
         userDelete.textContent = 'Remove User';
+        userDelete.classList.add('delete');
+
+        const userEdit = document.createElement('h4');
+        userEdit.textContent = 'Edit User';
+        userEdit.classList.add('edit');
+
+        actions.appendChild(userEdit);
+        actions.appendChild(userDelete);
+
         userWrapper.appendChild(userName);
         userWrapper.appendChild(userEmail);
         userWrapper.appendChild(userCreatedAt);
-        userWrapper.appendChild(userDelete);
+        userWrapper.appendChild(actions);
         usersWrapper.appendChild(userWrapper);
         deleteHandler(user.id);
         editHandler(user);
@@ -56,7 +67,7 @@ function createHandler() {
 }
 
 function editHandler(user) {
-    const userWrapper = document.getElementById(user.id);
+    const userWrapper = document.querySelector(`#id-${user.id} h4.edit`);
 
     userWrapper.onclick = () => {
         const title = document.querySelector('.modal h1.title');
@@ -83,7 +94,7 @@ function editHandler(user) {
 }
 
 function deleteHandler(id) {
-    const userDelete = document.querySelector(`#id-${id}.delete`);
+    const userDelete = document.querySelector(`#id-${id} h4.delete`);
     const user = document.getElementById(id);
     userDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {

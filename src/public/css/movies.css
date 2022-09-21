@@ -26,8 +26,6 @@ body {
     margin-block: 2rem;
 }
 
-
-
 div.movie {
     display: grid;
     align-items: center;
@@ -37,6 +35,12 @@ div.movie {
     background-color: rgb(205, 205, 205);
     border : 1px solid black;
     border-radius: 5px;
+}
+
+div.movie__actions {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
 }
 
 h1.movie__name {
@@ -62,6 +66,15 @@ h4.delete {
     margin: 0;
     font-weight: 300;
     color: red;
+    cursor: pointer;
+    text-align: right;
+}
+
+h4.edit {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 300;
+    color: rgb(24, 116, 255);
     cursor: pointer;
     text-align: right;
 }

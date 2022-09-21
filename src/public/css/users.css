@@ -57,11 +57,26 @@ h2.user__created_at {
     font-weight: 300;
 }
 
+div.user__actions {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+
 h4.delete {
     font-size: 1.5rem;
     margin: 0;
     font-weight: 300;
     color: red;
+    cursor: pointer;
+    text-align: right;
+}
+
+h4.edit {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 300;
+    color: rgb(24, 116, 255);
     cursor: pointer;
     text-align: right;
 }
@@ -125,3 +140,4 @@ button {
 .btn-primary:hover {
     background-color: rgb(109, 128, 225);
 }
+

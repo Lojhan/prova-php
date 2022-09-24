@@ -1,23 +1,39 @@
 <?php
     require_once 'controllers/base_controller.php';
+
     class MovieController extends BaseController {
         private $movieRepository;
 
         public function __construct( $movieRepository ) {
+            parent::__construct();
             $this->movieRepository = $movieRepository;
+            $this->messages = Validator::$messages;
         }
 
         public function get() {
             $strErrorDesc = '';
             $requestMethod = $_SERVER["REQUEST_METHOD"];
+            $validation = array();
 
             if (strtoupper($requestMethod) == 'GET') {
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->movieRepository->getMovie($id);
                     $movie = $result->fetch_assoc();
                     $responseData = json_encode($movie);
+
                 } catch (Error $e) {
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -27,7 +43,7 @@
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
             }
 
-            $this->end($strErrorDesc, $strErrorHeader, $responseData);
+            return $this->end($strErrorDesc, $strErrorHeader, $responseData);
         }
 
         public function list() {

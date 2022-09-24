@@ -29,6 +29,10 @@
             return strlen($value) >= $param;
         }
 
+        public static function text($value) {
+            return is_string($value);
+        }
+
         public static function max($value, $param) {
             return strlen($value) <= $param;
         }
@@ -186,10 +190,11 @@
 
         public static $messages = array(
             'required' => 'The :attribute field is required.',
+            'text' => 'The :attribute field must be a string.',
             'numeric' => 'The :attribute field must be numeric.',
             'int' => 'The :attribute field must be an integer.',
-            'min' => 'The :attribute field must be at least :param characters.',
-            'max' => 'The :attribute field must be less than :param characters.',
+            'min' => 'The :attribute field must be at least :param characters long.',
+            'max' => 'The :attribute field must be less than :param characters long.',
             'match' => 'The :attribute field must match the :param field.',
             'email' => 'The :attribute field must be a valid email address.',
             'url' => 'The :attribute field must be a valid URL.',

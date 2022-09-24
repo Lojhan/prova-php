@@ -79,6 +79,18 @@
                     $name = $_POST['name'];
                     $description = $_POST['description'];
 
+                    $fields = array(
+                        'name' => $name,
+                        'description' => $description
+                    );
+
+                    $rules = array(
+                        'name' => 'required|string|min:3',
+                        'description' => 'required|string|min:3'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->movieRepository->createMovie($name, $description);
                     $movie = $result->fetch_assoc();
                     $responseData = json_encode($movie);
@@ -105,6 +117,20 @@
                     $name = $_POST['name'];
                     $description = $_POST['description'];
 
+                    $fields = array(
+                        'id' => $id,
+                        'name' => $name,
+                        'description' => $description
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1',
+                        'name' => 'required|string|min:3',
+                        'description' => 'required|string|min:3'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->movieRepository->updateMovie($id, $name, $description);
                     $movie = $result->fetch_assoc();
                     $responseData = json_encode($movie);
@@ -128,6 +154,17 @@
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->movieRepository->deleteMovie($id);
                     $responseData = json_encode($result);
                 } catch (Error $e) {

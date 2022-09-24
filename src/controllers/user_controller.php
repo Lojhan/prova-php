@@ -4,6 +4,7 @@
         private $userRepository;
 
         public function __construct( $userRepository ) {
+            parent::__construct();
             $this->userRepository = $userRepository;
         }
 
@@ -15,6 +16,17 @@
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->userRepository->getUser($id);
                     $user = $result->fetch_assoc();
                     $responseData = json_encode($user);
@@ -64,6 +76,20 @@
                     $email = $_POST['email'];
                     $password = $_POST['password'];
 
+                    $fields = array(
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => $password
+                    );
+
+                    $rules = array(
+                        'name' => 'required|text|min:3',
+                        'email' => 'required|email',
+                        'password' => 'required|text|min:6'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->userRepository->createUser($name, $email, $password);
                     $user = $result->fetch_assoc();
                     $responseData = json_encode($user);
@@ -89,6 +115,20 @@
                     $name = $_POST['name'];
                     $email = $_POST['email'];
                     $password = $_POST['password'];
+
+                    $fields = array(
+                        'id' => $id,
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => $password
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1',
+                        'name' => 'required|text|min:3',
+                        'email' => 'required|email',
+                        'password' => 'required|text|min:6'
+                    );
                     
                     $result = $this->userRepository->updateUser($id, $name, $email, $password);
                     $user = $result->fetch_assoc();
@@ -113,6 +153,16 @@
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
 
                     $this->userRepository->deleteUser($id);
                 } catch (Error $e) {

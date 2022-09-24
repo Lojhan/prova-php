@@ -4,6 +4,7 @@
         private $serieRepository;
 
         public function __construct( $serieRepository ) {
+            parent::__construct();
             $this->serieRepository = $serieRepository;
         }
 
@@ -15,6 +16,17 @@
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->serieRepository->getSerie($id);
                     $serie = $result->fetch_assoc();
                     $responseData = json_encode($serie);
@@ -63,6 +75,18 @@
                     $name = $_POST['name'];
                     $description = $_POST['description'];
 
+                    $fields = array(
+                        'name' => $name,
+                        'description' => $description
+                    );
+
+                    $rules = array(
+                        'name' => 'required|text|min:3',
+                        'description' => 'required|text|min:3'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->serieRepository->createSerie($name, $description);
                     $serie = $result->fetch_assoc();
                     $responseData = json_encode($serie);
@@ -88,6 +112,20 @@
                     $name = $_POST['name'];
                     $description = $_POST['description'];
 
+                    $fields = array(
+                        'id' => $id,
+                        'name' => $name,
+                        'description' => $description
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1',
+                        'name' => 'required|text|min:3',
+                        'description' => 'required|text|min:3'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->serieRepository->updateSerie($id, $name, $description);
                     $serie = $result->fetch_assoc();
                     $responseData = json_encode($serie);
@@ -111,6 +149,17 @@
                 try {
                     $uri = $this->getUriSegments();
                     $id = $uri[4];
+
+                    $fields = array(
+                        'id' => $id
+                    );
+
+                    $rules = array(
+                        'id' => 'required|int|min:1'
+                    );
+
+                    $this->validate($fields, $rules);
+
                     $result = $this->serieRepository->deleteSerie($id);
                     $responseData = json_encode($result);
                 } catch (Error $e) {

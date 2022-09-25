@@ -71,7 +71,7 @@
 
                     $responseData[] = array(
                         'field' => $key,
-                        'messages' => $messages
+                        'rules' => $messages
                     );
                 }
                 $this->end(true, 'HTTP/1.1 400 Bad Request', json_encode($responseData));

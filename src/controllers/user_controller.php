@@ -85,7 +85,7 @@
                     $rules = array(
                         'name' => 'required|text|min:3',
                         'email' => 'required|email',
-                        'password' => 'required|text|min:6'
+                        'password' => 'required|text|min:6|max:20'
                     );
 
                     $this->validate($fields, $rules);
@@ -127,7 +127,7 @@
                         'id' => 'required|int|min:1',
                         'name' => 'required|text|min:3',
                         'email' => 'required|email',
-                        'password' => 'required|text|min:6'
+                        'password' => 'required|text|min:6|max:20'
                     );
                     
                     $result = $this->userRepository->updateUser($id, $name, $email, $password);

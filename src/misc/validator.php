@@ -30,7 +30,7 @@
         }
 
         public static function text($value) {
-            return is_string($value);
+            return !is_numeric($value);
         }
 
         public static function max($value, $param) {

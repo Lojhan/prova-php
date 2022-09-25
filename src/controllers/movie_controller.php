@@ -85,8 +85,8 @@
                     );
 
                     $rules = array(
-                        'name' => 'required|string|min:3',
-                        'description' => 'required|string|min:3'
+                        'name' => 'required|text|min:3',
+                        'description' => 'required|text|min:3'
                     );
 
                     $this->validate($fields, $rules);
@@ -125,8 +125,8 @@
 
                     $rules = array(
                         'id' => 'required|int|min:1',
-                        'name' => 'required|string|min:3',
-                        'description' => 'required|string|min:3'
+                        'name' => 'required|text|min:3',
+                        'description' => 'required|text|min:3'
                     );
 
                     $this->validate($fields, $rules);

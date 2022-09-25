@@ -100,7 +100,7 @@ function editHandler(serie) {
 
 function deleteHandler(id) {
     const serieDelete = document.querySelector(`#id-${id} h4.delete`);
-    const serie = document.getElementById(id);
+    const serie = document.getElementById(`id-${id}`);
     serieDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {
             fetch(`api.php/series/delete/${id}`, { method: 'DELETE' })

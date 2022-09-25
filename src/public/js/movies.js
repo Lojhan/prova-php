@@ -98,7 +98,7 @@ function editHandler(movie) {
 
 function deleteHandler(id) {
     const movieDelete = document.querySelector(`#id-${id} h4.delete`);
-    const movie = document.getElementById(id);
+    const movie = document.getElementById(`id-${id}`);
     movieDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {
             fetch(`api.php/movies/delete/${id}`, { method: 'DELETE' })

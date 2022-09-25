@@ -95,7 +95,7 @@ function editHandler(user) {
 
 function deleteHandler(id) {
     const userDelete = document.querySelector(`#id-${id} h4.delete`);
-    const user = document.getElementById(id);
+    const user = document.getElementById(`id-${id}`);
     userDelete.onclick = (e) => {
         if (e.target.classList.contains('delete')) {
             fetch(`api.php/users/delete/${id}`, { method: 'DELETE' })

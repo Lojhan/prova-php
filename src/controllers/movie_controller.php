@@ -166,7 +166,8 @@
                     $this->validate($fields, $rules);
 
                     $result = $this->movieRepository->deleteMovie($id);
-                    $responseData = json_encode($result);
+                    $res = $result->fetch_assoc();
+                    $responseData = json_encode($res);
                 } catch (Error $e) {
                     $strErrorDesc = 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

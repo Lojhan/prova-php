@@ -126,15 +126,65 @@ async function sendReq(serie, url) {
 
     const data = await fetch(url, requestOptions)
     .then(reloadOnSuccess)
-    .catch(error => console.log('error', error));
+    .then(alertOnError)
+    .catch(() => alert('Something went wrong'));
 
     return data;
 }
 
 function reloadOnSuccess(res) {
     if (res.status === 200) {
-        window.location.reload();
+        return window.location.reload();
     }
+    return res;
+}
+
+async function alertOnError(res) {
+    if (res.status !== 400) return alert ('Something went wrong');
+    const e = await res.json();
+    const { error } = e;
+
+    const errorModal = document.querySelector('.error-alert');
+    const errorModalContent = document.querySelector('.error-alert .error-alert-content');
+    const errorModalFieldsList = document.querySelector('.error-alert ul.fields');
+
+    const closeButton = document.querySelector('#close-error-alert');
+    function closeModal() {
+        errorModal.style.display = 'none';
+        errorModalContent.style.display = 'none';
+        const body = document.getElementById('error');
+        body.remove();
+    }
+
+    function openModal() {
+        errorModal.style.display = 'block';
+        errorModalContent.style.display = 'block';
+    }
+
+    if (error === 'Validation failed') {
+
+        const { fields } = e;
+
+        fields.forEach(f => {
+            const fieldEl = document.createElement('div');
+            fieldEl.setAttribute('id', `error`);
+
+            const { field, messages } = f;
+
+            fieldEl.innerHTML = `<h3>${field}</h3>`;
+            errorModalFieldsList.appendChild(fieldEl);
+
+            messages.forEach(m => {
+                const messageEl = document.createElement('li');
+                messageEl.textContent = m;
+                fieldEl.appendChild(messageEl);
+            });
+        });
+    }
+
+    closeButton.onclick = closeModal;
+    
+    openModal();
 }
 
 fetch('api.php/series/list')

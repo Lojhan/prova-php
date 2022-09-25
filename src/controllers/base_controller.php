@@ -69,9 +69,14 @@
                         str_replace(':param', $param, $messages[count($messages) - 1]);
                     }
 
-                    $responseData[] = array(
+                    $res[] = array(
                         'field' => $key,
-                        'rules' => $messages
+                        'messages' => $messages
+                    );
+
+                    $responseData = array(
+                        'error' => 'Validation failed',
+                        'fields' => $res
                     );
                 }
                 $this->end(true, 'HTTP/1.1 400 Bad Request', json_encode($responseData));

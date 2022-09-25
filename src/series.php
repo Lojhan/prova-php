@@ -40,6 +40,14 @@
             </form>
         </div>
     </div>
+
+    <div class="error-alert">
+        <div class="error-alert-content">
+            <h1 class="title">Error</h1>
+            <ul class="fields"></ul>
+            <button type="button" class="btn btn-primary" id="close-error-alert">Close</button>
+        </div>
+    </div>
     <script src="public/js/series.js" type="module"></script>
     <script src="public/js/modal.js" type="module"></script>
 </body>
